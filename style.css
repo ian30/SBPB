@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  transition: all 0.1s ease;
+}
+ul,
+li {
+  list-style: none;
+}
+header {
+  background-color: #454545;
+  padding: 10px;
+}
+header a {
+  color: #f0f2f5;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  padding: 7px 15px;
+}
+header a.active {
+  background: green;
+  color: #f0f2f5;
+}
+header li.top-level > a:not(:hover) {
+  /* color: #202020; */
+  border-bottom: 0px solid #f0f2f5;
+}
+header li.top-level > a:hover {
+  font-style: italic;
+  /* border-bottom: 1px solid #f0f2f5; */
+}
+header .container {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 0;
+  display: flex;
+  position: relative;
+}
+.logo {
+  width: 80px;
+  border: 2px dashed #f0f2f5;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  color: #aaa;
+}
+.menu {
+  padding-top: 10px;
+}
+ul.menu-list li {
+  display: inline-block;
+  padding: 2px 10px;
+}
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0px;
+  min-width: 110px;
+  top: 55px;
+}
+.dropdown.show {
+  display: block;
+}
+ul.dropdown li {
+  display: block;
+  padding: 5px 0;
+}
+ul.dropdown li:hover {
+  background-color: rgba(0, 0, 0, 1);
+}
+ul.dropdown li a {
+  font-size: 13px;
+  font-weight: normal;
+}
+main .container {
+  width: 100%;
+  max-width: 1240px;
+  height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+#workArea,
+#toolBox {
+  padding: 10px;
+}
+#workArea {
+  border: 2px dashed gray;
+  width: 75%;
+}
+#toolBox {
+  border: 2px dashed gray;
+  border-left: none;
+  width: 25%;
+}
+#toolbox-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+#toolbox-list li {
+  width: 47%;
+  background-color: rgb(183, 183, 183);
+  /* padding: 10px; */
+  color: white;
+  margin-bottom: 15px;
+  min-height: 70px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: grab;
+  border-style: outset;
+  border: 1px solid #aaa;
+  padding: 10px;
+}
+.toolBoxGroup {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  background-color: #dfdfdf;
+}
+.toolBoxItem:active {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(4px);
+  opacity: 0.5;
+}
+.hidden {
+  display: none;
+}
+.shown {
+  display: block;
+}

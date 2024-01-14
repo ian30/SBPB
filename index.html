@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuperBasicPageBuilder</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="container">
+          <div class="logo">S.B.P.B</div>
+          <div class="menu">
+            <ul class="menu-list">
+              <li class="top-level">
+                <a href="#" id="fileMenu">File</a>
+                <ul class="dropdown">
+                  <li><a href="#" class="menu-item">New</a></li>
+                  <li><a href="#" class="menu-item">Open</a></li>
+                  <li><a href="#" class="menu-item">Save</a></li>
+                </ul>
+              </li>
+              <li class="top-level">
+                <a href="#" id="editMenu">Edit</a>
+                <ul class="dropdown">
+                  <li><a href="#" class="menu-item">Copy</a></li>
+                  <li><a href="#" class="menu-item">Paste</a></li>
+                  <li><a href="#" class="menu-item">Select All</a></li>
+                </ul>
+              </li>
+              <li class="top-level">
+                <a href="#" id="testLink">Test</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div class="container">
+        <div id="workArea">This is the work area</div>
+        <div id="toolBox">
+          <small>Drag Elements to the Work Area</small>
+          <div class="toolBoxGroup">
+            <strong>Basic HTML Elements</strong>
+            <ul id="toolbox-list">
+              <li class="toolBoxItem" id="h1" draggable="true">&lt;h1&gt;</li>
+              <li class="toolBoxItem" id="div" draggable="true">&lt;div&gt;</li>
+              <li class="toolBoxItem" id="span" draggable="true">
+                &lt;span&gt;
+              </li>
+              <li class="toolBoxItem" id="form" draggable="true">
+                &lt;form&gt;
+              </li>
+              <li class="toolBoxItem" id="p" draggable="true">&lt;p&gt;</li>
+              <li class="toolBoxItem" id="strong" draggable="true">
+                &lt;strong&gt;
+              </li>
+              <li class="toolBoxItem" id="ul" draggable="true">&lt;ul&gt;</li>
+              <li class="toolBoxItem" id="li" draggable="true">&lt;li&gt;</li>
+              <li class="toolBoxItem" id="img" draggable="true">&lt;img&gt;</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
