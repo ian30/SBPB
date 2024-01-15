@@ -8,6 +8,8 @@
   --platinum: #d3d6daff;
   --soft-white: #f0f2f5;
   --soft-black: #303033;
+  --primary: rgb(46, 105, 243);
+  --danger: rgb(216, 48, 48);
 }
 * {
   margin: 0;
@@ -21,7 +23,6 @@ li {
   list-style: none;
 }
 header {
-  /* background-color: #454545; */
   background-color: var(--dim-gray);
   padding: 10px;
 }
@@ -42,7 +43,6 @@ header li.top-level > a:not(:hover) {
 }
 header li.top-level > a:hover {
   font-style: italic;
-  /* border-bottom: 1px solid #f0f2f5; */
 }
 header .container {
   max-width: 1640px;
@@ -54,7 +54,7 @@ header .container {
 }
 .logo {
   width: 80px;
-  border: 2px dashed #f0f2f5;
+  border: 2px dashed var(--soft-white);
   padding: 10px;
   border-radius: 5px;
   text-align: center;
@@ -93,7 +93,7 @@ main .container {
   width: 100%;
   max-width: 1640px;
   height: 100vh;
-  background-color: #f0f2f5;
+  background-color: var(--soft-white);
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -108,13 +108,13 @@ main .container {
   border: 2px dashed gray;
   width: 75%;
 }
-#workArea * {
+#workArea *:not(hr) {
   padding: 10px;
   border-radius: 6px;
 }
-#workArea *:not(".editing") {
+/* #workArea *:not(.editing) {
   opacity: 0.4;
-}
+} */
 #workArea .editing {
   opacity: 1 !important;
   border: 1px dashed gray;
@@ -123,7 +123,7 @@ main .container {
   border: 2px dashed gray;
   border-left: none;
   width: 25%;
-  background-color: #bebebeff;
+  background-color: var(--silver);
 }
 #toolbox-list {
   display: flex;
@@ -157,10 +157,6 @@ main .container {
   border-radius: 10px;
   background-color: var(--platinum);
 }
-/* .toolBoxItem {
-  color: var(--soft-black);
-  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
-} */
 .toolBoxItem:active {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transform: translateY(4px);
@@ -184,12 +180,74 @@ input[type="text"] {
 }
 .button {
   display: inline-block;
-  color: #f0f2f5;
+  color: var(--soft-white);
   border: none;
 }
 .submitChange {
-  background-color: rgb(46, 105, 243);
+  background-color: var(--primary);
 }
 .deleteEl {
-  background-color: rgb(216, 48, 48);
+  background-color: var(--danger);
+}
+.pageContainer {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  right: 0;
+  left: 0;
+  margin: auto;
+  width: 80%;
+  background-color: var(--platinum);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+  transition: all 250ms ease-in-out;
+}
+.pageContainer.hidden {
+  top: -40px;
+}
+
+.pageTitle {
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+p {
+  margin-bottom: 12px;
+}
+.form-group {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.form-group > label {
+  min-width: 120px;
+  padding: 10px;
+  background-color: var(--dim-gray);
+  display: inline-block;
+  color: var(--soft-white);
+  border-radius: 5px 0 0 5px;
+}
+.form-group > input {
+  width: 100%;
+  border-radius: 0 5px 5px 0;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  background-color: var(--soft-white);
+}
+
+#savePageSettings {
+  background-color: var(--primary);
+  color: var(--soft-white);
+  border-radius: 5px;
+  padding: 10px;
+  border: none;
+}
+.tx-center {
+  text-align: center;
+}
+.settingGroup {
+  margin-bottom: 20px;
 }

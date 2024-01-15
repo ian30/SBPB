@@ -152,6 +152,40 @@ newFileTrig.addEventListener('click', function (event) {
         }
     }
 })
+//open/close page settings:
+const dismissSettingsEl = document.getElementById('dismissSettings');
+const pageSettingsEl = document.getElementById('pageSettings');
+const openSettingsBtn = document.getElementById('settingsMenu');
+openSettingsBtn.addEventListener('click', function () {
+    if (!helpEl.classList.contains('hidden')) {
+        helpEl.classList.add('hidden');
+        pageSettingsEl.classList.toggle('hidden');
+    } else {
+        pageSettingsEl.classList.toggle('hidden');
+    }
+});
+//opep/close help:
+const helpEl = document.getElementById('help');
+const openHelpBtn = document.getElementById('helpMenu');
+openHelpBtn.addEventListener('click', function () {
+    if (!pageSettingsEl.classList.contains('hidden')) {
+        pageSettingsEl.classList.add('hidden');
+        helpEl.classList.toggle('hidden');
+    } else {
+        helpEl.classList.toggle('hidden');
+    }
+});
+
+
+const savePageSettingsBtn = document.getElementById('savePageSettings');
+let pageSettingsPageTitle;
+let pageSettingsFontFamily
+savePageSettingsBtn.addEventListener('click', function () {
+    pageSettingsPageTitle = document.getElementById('pageTitle').value;
+    pageSettingsFontFamily = document.getElementById('fontFamily').value;
+    pageSettingsEl.classList.add('hidden');
+    console.log('settings saved?', pageSettingsPageTitle, pageSettingsFontFamily);
+});
 //save file:
 function saveFile(filename, type) {
     let downloadLink = document.getElementById('fileMenu_save');
@@ -167,9 +201,20 @@ function saveFile(filename, type) {
             let editSpans = workArea.querySelectorAll('.editText');//select all the edit spans we don't want to export.
             editSpans.forEach(span => {
                 content = content.replace(span.outerHTML, "");//remove all edit spans and their children:
-            })
-            let htmlStart = '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body>';
-            let htmlEnd = '</head><body>';
+            });
+
+            let htmlStart = `
+                <!DOCTYPE html>
+                    <html>
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <style>body {font-family: ${pageSettingsFontFamily};}</style>
+                            <title>${pageSettingsPageTitle}</title>
+                        </head>
+                        <body>
+                `;
+            let htmlEnd = '</body></html>';
             return htmlStart + content + htmlEnd;
         }
         fileMenuSibClassList.toggle('show');//closing navigation dropdown
