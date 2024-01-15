@@ -48,29 +48,33 @@ function createTextInputUnderEl(element) {
     let workAreaElements = workArea.querySelectorAll('*');
     console.log('workAreaElements', workAreaElements);
     workAreaElements.forEach(element => {
+        //clicking on element shows text box:
         element.addEventListener('click', function (event) {
+            if (event.target.closest('input[type="text"]')) { return } //exclud text input from triggering class cange
             let child = this.querySelectorAll('span');
             element.classList.toggle('editing');
             if (child.length > 0) {
                 child[0].parentNode.replaceChild(editTextSpan, child[0]);
                 child[0].classList.toggle('hidden');
-                if (child[0].classList.contains('hidden')) {
-                    console.warn('class hidden found on' + child[0]);
-                    // child[0].classList.remove('hidden');
-                    // child[0].classList.add('show');
-                }
+            } else {
+                element.appendChild(editTextSpan);
+                child[0].classList.toggle('hidden');
             }
+            return;
         })
+        var randNum = ('10000' + Math.floor(Math.random() * 10000)).slice(1);
         let editTextSpan = document.createElement('span');
         let editTextInput = document.createElement('input');
         let editTextArea = document.createElement('textarea');
         let submitChange = document.createElement('button');
         editTextInput.type = 'text';
         editTextInput.value = element.textContent;
+        editTextInput.id = `textInput_${randNum}`;
         editTextSpan.appendChild(editTextInput);
         editTextSpan.classList.add('editText', 'hidden');
         submitChange.textContent = 'Save';
         submitChange.classList.add('submitChange');
+        submitChange.id = `saveChange_${randNum}`;
         editTextSpan.appendChild(submitChange);
         //check if span exists under this element:
         let child = element.querySelectorAll('span');
@@ -78,22 +82,28 @@ function createTextInputUnderEl(element) {
             child[0].parentNode.replaceChild(editTextSpan, child[0]);
         } else {
             element.appendChild(editTextSpan);
-            // editTextSpan.classList.toggle('hidden');
-            // editTextSpan.classList.toggle('show');
         }
+        submitChange.addEventListener('click', function (event) {
+            element.textContent = editTextInput.value;
+            console.log('child: ', child);
+            //child.classList.add('hidden');
+        })
         return;
+
     })
 }
 
 function createWorkAreaElement(elemID) {
     let el = document.createElement(elemID);
-    el.textContent = `This is ${elemID}`;
+    if (el === 'img') {
+        el.src = 'https://picsum.photos/200/300';
+
+    } else {
+        el.textContent = `This is ${elemID}`;
+    }
+
     workArea.appendChild(el);
     createTextInputUnderEl(elemID);
-    // el.addEventListener('click', function (event) {
-    //     // event.preventDefault();
-    //     createTextInputUnderEl(elemID);
-    // })
 }
 
 workArea.addEventListener('drop', function (event) {
