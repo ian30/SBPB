@@ -33,7 +33,7 @@ header li.top-level > a:hover {
   /* border-bottom: 1px solid #f0f2f5; */
 }
 header .container {
-  max-width: 1240px;
+  max-width: 1640px;
   width: 100%;
   margin: 0 auto;
   padding: 10px 0;
@@ -79,7 +79,7 @@ ul.dropdown li a {
 }
 main .container {
   width: 100%;
-  max-width: 1240px;
+  max-width: 1640px;
   height: 100vh;
   background-color: #f0f2f5;
   display: flex;
@@ -95,6 +95,17 @@ main .container {
 #workArea {
   border: 2px dashed gray;
   width: 75%;
+}
+#workArea * {
+  padding: 10px;
+  border-radius: 6px;
+}
+#workArea *:not(".editing") {
+  opacity: 0.4;
+}
+#workArea .editing {
+  opacity: 1 !important;
+  border: 1px dashed gray;
 }
 #toolBox {
   border: 2px dashed gray;
@@ -130,14 +141,31 @@ main .container {
   border-radius: 10px;
   background-color: #dfdfdf;
 }
+.toolBoxItem {
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+}
 .toolBoxItem:active {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transform: translateY(4px);
   opacity: 0.5;
 }
+.toolBoxGroupTitle {
+  text-align: center;
+  font-weight: bold;
+}
+input[type="text"] {
+  min-width: 400px;
+  height: 40px;
+  padding: 5px;
+  font-size: 14px;
+}
 .hidden {
   display: none;
 }
-.shown {
+.show {
   display: block;
+}
+.submitChange {
+  display: inline-block;
+  background-color: aquamarine;
 }
