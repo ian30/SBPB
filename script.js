@@ -157,7 +157,7 @@ function saveFile(filename, type) {
             let editSpans = workArea.querySelectorAll('.editText');//select all the edit spans we don't want to export.
             editSpans.forEach(span => {
                 //remove all edit spans:
-                content = content.replace(span.outerHTML, span.textContent);
+                content = content.replace(span.outerHTML, "");
             })
             let htmlStart = '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body>';
             let htmlEnd = '</head><body>';

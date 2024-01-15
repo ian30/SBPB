@@ -33,7 +33,11 @@
                     >
                   </li>
                   <li>
-                    <a href="#" id="fileMenu_import" class="menu-item"
+                    <a
+                      aria-disabled="true"
+                      href="#"
+                      id="fileMenu_import"
+                      class="menu-item"
                       >import</a
                     >
                   </li>
@@ -47,9 +51,9 @@
                   <li><a href="#" class="menu-item">Select All</a></li>
                 </ul>
               </li>
-              <li class="top-level">
+              <!-- <li class="top-level">
                 <a href="#" id="testLink">Test</a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
@@ -59,7 +63,10 @@
       <div class="container">
         <div id="workArea">This is the work area</div>
         <div id="toolBox">
-          <small>Drag Elements to the Work Area</small>
+          <p class="toolBoxTitle">
+            <small>Drag Elements to the Work Area</small>
+          </p>
+
           <div class="toolBoxGroup">
             <p class="toolBoxGroupTitle">
               <strong>Basic HTML Elements</strong>

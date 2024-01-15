@@ -1,3 +1,14 @@
+:root {
+  --blue-munsell: #4793a9ff;
+  --silver: #bebebeff;
+  --pale-dogwood: #c7b3aaff;
+  --dim-gray: #747474ff;
+  --rosy-brown: #b8888eff;
+  --pale-dogwood-2: #c7b3aaff;
+  --platinum: #d3d6daff;
+  --soft-white: #f0f2f5;
+  --soft-black: #303033;
+}
 * {
   margin: 0;
   padding: 0;
@@ -11,23 +22,23 @@ li {
 }
 header {
   /* background-color: #454545; */
-  background-color: #747474ff;
+  background-color: var(--dim-gray);
   padding: 10px;
 }
 header a {
-  color: #f0f2f5;
+  color: var(--soft-white);
   text-decoration: none;
   font-weight: bold;
   display: inline-block;
   padding: 7px 15px;
 }
 header a.active {
-  background: green;
-  color: #f0f2f5;
+  background: var(--blue-munsell);
+  color: var(--soft-white);
 }
 header li.top-level > a:not(:hover) {
   /* color: #202020; */
-  border-bottom: 0px solid #f0f2f5;
+  border-bottom: 0px solid var(--soft-white);
 }
 header li.top-level > a:hover {
   font-style: italic;
@@ -122,9 +133,9 @@ main .container {
 }
 #toolbox-list li {
   width: 47%;
-  background-color: rgb(183, 183, 183);
-  /* padding: 10px; */
-  color: white;
+  background-color: var(--silver);
+  color: var(--soft-black);
+  font-weight: bold;
   margin-bottom: 15px;
   min-height: 70px;
   align-items: center;
@@ -133,19 +144,23 @@ main .container {
   border-radius: 6px;
   cursor: grab;
   border-style: outset;
-  border: 1px solid #aaa;
+  border: 1px solid var(--silver);
   padding: 10px;
+}
+.toolBoxTitle {
+  text-align: center;
 }
 .toolBoxGroup {
   padding: 10px;
   margin: 5px;
-  border: 1px solid gray;
+  border: 1px solid var(--dim-gray);
   border-radius: 10px;
-  background-color: #dfdfdf;
+  background-color: var(--platinum);
 }
-.toolBoxItem {
+/* .toolBoxItem {
+  color: var(--soft-black);
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
-}
+} */
 .toolBoxItem:active {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transform: translateY(4px);
