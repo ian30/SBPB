@@ -24,14 +24,6 @@ editMenu.addEventListener('click', function () {
         editMenuSibClassList.toggle('show');
     }
 });
-
-//test
-// const testLink = document.getElementById('testLink');
-// testLink.addEventListener('click', function () {
-//     createTextInputUnderEl();
-// })
-
-
 //workArea listens to element dropped:
 const workArea = document.getElementById('workArea');
 workArea.addEventListener('dragover', function (e) {
@@ -55,9 +47,14 @@ function createTextInputUnderEl(element) {
         } else {
             //all other elements that are textual, show text box:
             element.addEventListener('click', function (event) {
-                if (event.target.closest('input[type="text"]')) { return } //exclud text input from triggering class cange
+                if (event.target.closest('input[type="text"]')) { return } //exclud text input from triggering class change
                 let child = this.querySelectorAll('span');
-                element.classList.toggle('editing');
+                if (this.classList.contains('editing')) {
+                    this.classList.toggle('editing');
+                } else {
+                    this.classList.add('editing');
+                }
+
                 if (child.length > 0) {
                     child[0].parentNode.replaceChild(editTextSpan, child[0]);
                     child[0].classList.toggle('hidden');
@@ -106,8 +103,12 @@ function createWorkAreaElement(elemID) {
     let el = document.createElement(elemID);
     if (elemID === 'img') {
         el.src = 'https://picsum.photos/200/300';
+    } else if (elemID === 'p') {
+        el.textContent = 'Phasellus scelerisque metus mattis lorem egestas egestas. Vestibulum pretium erat et ex tempus, nec aliquam nisi bibendum. Curabitur blandit feugiat scelerisque. ';
+    } else if (elemID === 'hr') {
+        el.textContent = '';
     } else {
-        el.textContent = `This is ${elemID}`;
+        el.textContent = `This is a ${elemID}`;
     }
     workArea.appendChild(el);//injecting element to workArea
     createTextInputUnderEl(elemID);//create edit text box:
@@ -124,10 +125,15 @@ workArea.addEventListener('drop', function (event) {
         this.textContent = '';
     }
     let elemID = event.dataTransfer.getData('text');
-    if (elemID === 'h1' || elemID === 'div' || elemID === 'span' || elemID === 'form' || elemID === 'p' || elemID === 'strong' || elemID === 'ul' || elemID === 'li' || elemID === 'a') {
+    if (elemID === 'h1' || elemID === 'h2' || elemID === 'h3' || elemID === 'h4' || elemID === 'h5' || elemID === 'h6' || elemID === 'div' || elemID === 'span' || elemID === 'form' || elemID === 'p' || elemID === 'strong' || elemID === 'ul' || elemID === 'li' || elemID === 'a') {
         createWorkAreaElement(elemID);
     } else if (elemID === 'img') {
         console.log('img selected')
+        createWorkAreaElement(elemID);
+    } else if (elemID === 'hr') {
+        createWorkAreaElement(elemID);
+    } else if (elemID === 'a') {
+        console.log('link selected');
         createWorkAreaElement(elemID);
     }
 })
@@ -153,11 +159,14 @@ function saveFile(filename, type) {
     downloadLink.addEventListener('click', function () {
         function gatherContent() {
             const workArea = document.getElementById('workArea');
+            const workAreaEls = workArea.querySelectorAll('*');
+            workAreaEls.forEach(el => {
+                el.classList.remove('editing');//remove editing class before export
+            })
             let content = workArea.innerHTML;
             let editSpans = workArea.querySelectorAll('.editText');//select all the edit spans we don't want to export.
             editSpans.forEach(span => {
-                //remove all edit spans:
-                content = content.replace(span.outerHTML, "");
+                content = content.replace(span.outerHTML, "");//remove all edit spans and their children:
             })
             let htmlStart = '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body>';
             let htmlEnd = '</head><body>';
