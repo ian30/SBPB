@@ -46,36 +46,45 @@ for (const tool of tools) {
 
 function createTextInputUnderEl(element) {
     let workAreaElements = workArea.querySelectorAll('*');
-    console.log('workAreaElements', workAreaElements);
     workAreaElements.forEach(element => {
-        //clicking on element shows text box:
-        element.addEventListener('click', function (event) {
-            if (event.target.closest('input[type="text"]')) { return } //exclud text input from triggering class cange
-            let child = this.querySelectorAll('span');
-            element.classList.toggle('editing');
-            if (child.length > 0) {
-                child[0].parentNode.replaceChild(editTextSpan, child[0]);
-                child[0].classList.toggle('hidden');
-            } else {
-                element.appendChild(editTextSpan);
-                child[0].classList.toggle('hidden');
-            }
-            return;
-        })
+        //if element is image, ask for source url:
+        if (element.id === 'img') {
+            element.addEventListener('click', function (event) {
+                console.log('image selected');
+            })
+        } else {
+            //all other elements that are textual, show text box:
+            element.addEventListener('click', function (event) {
+                if (event.target.closest('input[type="text"]')) { return } //exclud text input from triggering class cange
+                let child = this.querySelectorAll('span');
+                element.classList.toggle('editing');
+                if (child.length > 0) {
+                    child[0].parentNode.replaceChild(editTextSpan, child[0]);
+                    child[0].classList.toggle('hidden');
+                } else {
+                    element.appendChild(editTextSpan);
+                }
+                return;
+            })
+        }
         var randNum = ('10000' + Math.floor(Math.random() * 10000)).slice(1);
         let editTextSpan = document.createElement('span');
         let editTextInput = document.createElement('input');
         let editTextArea = document.createElement('textarea');
         let submitChange = document.createElement('button');
+        let deleteEl = document.createElement('button');
         editTextInput.type = 'text';
         editTextInput.value = element.textContent;
         editTextInput.id = `textInput_${randNum}`;
         editTextSpan.appendChild(editTextInput);
         editTextSpan.classList.add('editText', 'hidden');
         submitChange.textContent = 'Save';
-        submitChange.classList.add('submitChange');
+        submitChange.classList.add('submitChange', 'button');
         submitChange.id = `saveChange_${randNum}`;
+        deleteEl.textContent = 'Remove';
+        deleteEl.classList.add('deleteEl', 'button');
         editTextSpan.appendChild(submitChange);
+        editTextSpan.appendChild(deleteEl);
         //check if span exists under this element:
         let child = element.querySelectorAll('span');
         if (child.length > 0) {
@@ -86,26 +95,25 @@ function createTextInputUnderEl(element) {
         submitChange.addEventListener('click', function (event) {
             element.textContent = editTextInput.value;
             console.log('child: ', child);
-            //child.classList.add('hidden');
+        });
+        deleteEl.addEventListener('click', function (event) {
+            element.parentNode.removeChild(element);
         })
         return;
-
     })
 }
-
 function createWorkAreaElement(elemID) {
     let el = document.createElement(elemID);
-    if (el === 'img') {
+    if (elemID === 'img') {
         el.src = 'https://picsum.photos/200/300';
-
     } else {
         el.textContent = `This is ${elemID}`;
     }
-
+    //injecting element to workArea
     workArea.appendChild(el);
+    //create edit text box:
     createTextInputUnderEl(elemID);
 }
-
 workArea.addEventListener('drop', function (event) {
     event.preventDefault();
     let workElements = this.querySelectorAll('*');
@@ -118,7 +126,10 @@ workArea.addEventListener('drop', function (event) {
         this.textContent = '';
     }
     let elemID = event.dataTransfer.getData('text');
-    if (elemID === 'h1' || elemID === 'div' || elemID === 'span' || elemID === 'form' || elemID === 'p' || elemID === 'strong' || elemID === 'ul' || elemID === 'li' || elemID === 'img' || elemID === 'a') {
+    if (elemID === 'h1' || elemID === 'div' || elemID === 'span' || elemID === 'form' || elemID === 'p' || elemID === 'strong' || elemID === 'ul' || elemID === 'li' || elemID === 'a') {
+        createWorkAreaElement(elemID);
+    } else if (elemID === 'img') {
+        console.log('img selected')
         createWorkAreaElement(elemID);
     }
 })

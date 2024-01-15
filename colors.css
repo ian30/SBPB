@@ -1,0 +1,17 @@
+/* CSS HEX */
+--blue-munsell: #4793a9ff;
+--silver: #bebebeff;
+--pale-dogwood: #c7b3aaff;
+--dim-gray: #747474ff;
+--rosy-brown: #b8888eff;
+--pale-dogwood-2: #c7b3aaff;
+--platinum: #d3d6daff;
+
+/* CSS HSL */
+--blue-munsell: hsla(193, 41%, 47%, 1);
+--silver: hsla(0, 0%, 75%, 1);
+--pale-dogwood: hsla(19, 21%, 72%, 1);
+--dim-gray: hsla(0, 0%, 45%, 1);
+--rosy-brown: hsla(353, 25%, 63%, 1);
+--pale-dogwood-2: hsla(19, 21%, 72%, 1);
+--platinum: hsla(214, 9%, 84%, 1);
