@@ -182,15 +182,21 @@ openHelpBtn.addEventListener('click', function () {
     }
 });
 
-//save page settings:
+//save page settings: (PS = Page Settings)
 const savePageSettingsBtn = document.getElementById('savePageSettings');
-let pageSettingsPageTitle;
-let pageSettingsFontFamily
-let pageSettingsCustomCSS;
+let PSpageTitle;
+let PSfontFamily
+let PScustomCSS;
+let PSwrapperTag;
+let PSwrapperId;
+let PSwrapperClass;
 savePageSettingsBtn.addEventListener('click', function () {
-    pageSettingsPageTitle = document.getElementById('pageTitle').value;
-    pageSettingsFontFamily = document.getElementById('fontFamily').value;
-    pageSettingsCustomCSS = document.getElementById('customCSS').value;
+    PSpageTitle = document.getElementById('pageTitle').value;
+    PSfontFamily = document.getElementById('fontFamily').value;
+    PScustomCSS = document.getElementById('customCSS').value;
+    PSwrapperTag = document.getElementById('wrapperElementTag').value;
+    PSwrapperId = document.getElementById('wrapperElementId').value;
+    PSwrapperClass = document.getElementById('wrapperElementClass').value;
     pageSettingsEl.classList.add('hidden');
 });
 //save file:
@@ -215,12 +221,12 @@ function saveFile(filename, type) {
                         <head>
                             <meta charset="UTF-8">
                             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                            <style>body {font-family: ${pageSettingsFontFamily};\n${pageSettingsCustomCSS}}</style>
-                            <title>${pageSettingsPageTitle}</title>
+                            <style>body {font-family: ${PSfontFamily};\n${PScustomCSS}}</style>
+                            <title>${PSpageTitle}</title>
                         </head>
-                        <body>
+                        <body><${PSwrapperTag} id="${PSwrapperId}" class="${PSwrapperClass}">
                 `;
-            let htmlEnd = '</body></html>';
+            let htmlEnd = `</${PSwrapperTag}></body></html>`;
             return htmlStart + content + htmlEnd;
         }
         fileMenuSibClassList.toggle('show');//closing navigation dropdown

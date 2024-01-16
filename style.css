@@ -167,7 +167,7 @@ main .container {
   font-weight: bold;
 }
 input[type="text"] {
-  min-width: 400px;
+  /* min-width: 400px; */
   height: 40px;
   padding: 5px;
   font-size: 14px;
@@ -221,14 +221,27 @@ p {
   align-items: center;
   margin-bottom: 10px;
 }
-.form-group > label {
-  min-width: 120px;
+.form-group > label,
+.halfColumn > label,
+.thirdColumn > label {
+  min-width: 150px;
+  max-width: 150px;
   padding: 10px;
   background-color: var(--dim-gray);
   display: inline-block;
   color: var(--soft-white);
   border-radius: 5px 0 0 5px;
 }
+.thirdColumn:not(:first-child) > label {
+  min-width: 70px;
+  max-width: 70px;
+}
+.halfColumn > input,
+.halfColumn > textarea,
+.halfColumn > select,
+.thirdColumn > input,
+.thirdColumn > textarea,
+.thirdColumn > select,
 .form-group > input,
 .form-group > textarea,
 .form-group > select {
@@ -255,4 +268,15 @@ textarea#customCSS {
 }
 .settingGroup {
   margin-bottom: 20px;
+}
+.halfColumn {
+  width: 50%;
+  display: flex;
+}
+.thirdColumn {
+  width: 33%;
+  display: flex;
+}
+.thirdColumn:not(:first-child) {
+  margin-left: 10px;
 }
