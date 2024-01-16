@@ -31,7 +31,7 @@ editMenu.addEventListener('click', function () {
 const workArea = document.getElementById('workArea');
 workArea.addEventListener('dragover', function (e) {
     e.preventDefault();
-})
+});
 //letting items in the toolbox to be dragged and dropped
 for (const tool of tools) {
     tool.addEventListener('dragstart', function (event) {
@@ -42,31 +42,25 @@ for (const tool of tools) {
 function createTextInputUnderEl(element) {
     let workAreaElements = workArea.querySelectorAll('*');
     workAreaElements.forEach(element => {
-        //if element is image, ask for source url:
-        if (element.id === 'img') {
-            element.addEventListener('click', function (event) {
-                console.log('image clicked');
-            })
-        } else {
-            //all other elements that are textual, show text box:
-            element.addEventListener('click', function (event) {
-                if (event.target.closest('input[type="text"]')) { return } //exclud text input from triggering class change
-                let child = this.querySelectorAll('span');
-                if (this.classList.contains('editing')) {
-                    this.classList.toggle('editing');
-                } else {
-                    this.classList.add('editing');
-                }
+        //all other elements that are textual, show text box:
+        element.addEventListener('click', function (event) {
+            if (event.target.closest('input[type="text"]')) { return } //exclud text input from triggering class change
+            let child = this.querySelectorAll('span');
+            if (this.classList.contains('editing')) {
+                this.classList.toggle('editing');
+            } else {
+                this.classList.add('editing');
+            }
 
-                if (child.length > 0) {
-                    child[0].parentNode.replaceChild(editTextSpan, child[0]);
-                    child[0].classList.toggle('hidden');
-                } else {
-                    element.appendChild(editTextSpan);
-                }
-                return;
-            })
-        }
+            if (child.length > 0) {
+                child[0].parentNode.replaceChild(editTextSpan, child[0]);
+                child[0].classList.toggle('hidden');
+            } else {
+                element.appendChild(editTextSpan);
+            }
+            return;
+        });
+
 
         let editTextSpan = document.createElement('span');
         let editTextInput = document.createElement('input');
@@ -93,58 +87,80 @@ function createTextInputUnderEl(element) {
             element.appendChild(editTextSpan);
         }
         submitChange.addEventListener('click', function (event) {
+            this.parentNode.classList.toggle('hidden');
             element.textContent = editTextInput.value;
             console.log('child: ', child);
         });
         deleteEl.addEventListener('click', function (event) {
             element.parentNode.removeChild(element);
-        })
+        });
         return;
     })
 }
 function createWorkAreaElement(elemID) {
     let el = document.createElement(elemID);
+    el.draggable = 'true';
+    el.classList.add('posRelative');
     if (elemID === 'img') {
+        let wrapperSpan = document.createElement('span');
+        wrapperSpan.classList.add('imgContainer');
         el.src = 'https://picsum.photos/400/400';
         el.alt = 'sample image';
+        wrapperSpan.appendChild(el);
+        workArea.appendChild(wrapperSpan);
     } else if (elemID === 'p') {
         el.textContent = 'Phasellus scelerisque metus mattis lorem egestas egestas. Vestibulum pretium erat et ex tempus, nec aliquam nisi bibendum. Curabitur blandit feugiat scelerisque. ';
+        workArea.appendChild(el);
+        createTextInputUnderEl(elemID);
     } else if (elemID === 'hr') {
         el.textContent = '';
+        workArea.appendChild(el);
+        createTextInputUnderEl(elemID);
+    } else if (elemID === 'form') {
+        let formMarkup = `
+            <form action="">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter name">
+                </div>  
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                </div>
+                <div class="tx-center">
+                    <button type="submit" class="button bg-primary">Submit</button>
+                </div>
+            </form>
+        `;
+        el.innerHTML = formMarkup;
+        workArea.appendChild(el);
     } else {
-        el.textContent = `This is a ${elemID}`;
+
+        el.textContent = `This is a ${elemID}, click on it to edit.`;
+        workArea.appendChild(el);
+        createTextInputUnderEl(elemID);
     }
-    workArea.appendChild(el);//injecting element to workArea
-    createTextInputUnderEl(elemID);//create edit text box:
 }
 workArea.addEventListener('drop', function (event) {
     event.preventDefault();
     let workElements = this.querySelectorAll('*');
     workElements.forEach(element => {
         element.addEventListener('click', function (event) {
-            console.log('click on', event.target.id);
+
         });
     });
     if (this.textContent === 'This is the work area') {
         this.textContent = '';
     }
     let elemID = event.dataTransfer.getData('text');
-    if (elemID === 'h1' || elemID === 'h2' || elemID === 'h3' || elemID === 'h4' || elemID === 'h5' || elemID === 'h6' || elemID === 'div' || elemID === 'span' || elemID === 'form' || elemID === 'p' || elemID === 'strong' || elemID === 'ul' || elemID === 'li' || elemID === 'a') {
-        createWorkAreaElement(elemID);
-    } else if (elemID === 'img') {
-        createWorkAreaElement(elemID);
-    } else if (elemID === 'hr') {
-        createWorkAreaElement(elemID);
-    } else if (elemID === 'a') {
-        createWorkAreaElement(elemID);
-    }
+    if (elemID === 'h1' || elemID === 'h2' || elemID === 'h3' || elemID === 'h4' || elemID === 'h5' || elemID === 'h6' || elemID === 'div' || elemID === 'span' || elemID === 'form' || elemID === 'p' || elemID === 'strong' || elemID === 'ul' || elemID === 'li' || elemID === 'a' || elemID === 'img' || elemID === 'hr' || elemID === 'a' || elemID === '20px') { createWorkAreaElement(elemID); }
 })
 //new file/clear:
 const newFileTrig = document.getElementById('fileMenu_new');
 newFileTrig.addEventListener('click', function (event) {
     //check if workArea has any elements: 
     let workAreaElements = workArea.querySelectorAll('*');
-    fileMenuSibClassList.toggle('show');//closing navigation dropdown
+    fileMenuSibClassList.toggle('show');//closing nav dropdown
     fileMenu.classList.remove('active');
     if (workAreaElements.length > 0) {
         let confirm = window.confirm(`work area contains at least 1 element. Are you sure you want to create new file?`)

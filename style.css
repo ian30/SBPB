@@ -108,17 +108,13 @@ main .container {
   border: 2px dashed gray;
   width: 75%;
 }
-#workArea *:not(hr) {
-  padding: 10px;
-  border-radius: 6px;
-}
 /* #workArea *:not(.editing) {
   opacity: 0.4;
 } */
-#workArea .editing {
+/* #workArea .editing {
   opacity: 1 !important;
   border: 1px dashed gray;
-}
+} */
 #toolBox {
   border: 2px dashed gray;
   border-left: none;
@@ -182,6 +178,10 @@ input[type="text"] {
   display: inline-block;
   color: var(--soft-white);
   border: none;
+  padding: 12px;
+}
+.bg-primary {
+  background-color: var(--primary);
 }
 .submitChange {
   background-color: var(--primary);
@@ -279,4 +279,23 @@ textarea#customCSS {
 }
 .thirdColumn:not(:first-child) {
   margin-left: 10px;
+}
+.posRelative {
+  position: relative;
+}
+span.editText {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 450px;
+  border: 1px solid var(--dim-gray);
+  border-radius: 5px;
+  padding: 5px;
+  background-color: var(--soft-white);
+  background-color: var(--pale-dogwood);
+}
+.editText input[type="text"] {
+  min-width: 300px;
+  border-radius: 5px 0 0 5px;
+  border: none;
 }
