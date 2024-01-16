@@ -4,6 +4,9 @@ const fileMenuSibClassList = fileMenu.nextElementSibling.classList;
 const editMenu = document.getElementById("editMenu");
 const editMenuSibClassList = editMenu.nextElementSibling.classList;
 const tools = document.getElementsByClassName('toolBoxItem');
+function generateRandomID() {
+    return ('100' + Math.floor(Math.random() * 100)).slice(1);
+}
 fileMenu.addEventListener('click', function () {
     this.classList.toggle('active');
     if (editMenuSibClassList.contains('show')) {
@@ -35,14 +38,14 @@ for (const tool of tools) {
         event.dataTransfer.setData('text', event.target.id);
     });
 }
-let randNum = ('10000' + Math.floor(Math.random() * 10000)).slice(1);
+
 function createTextInputUnderEl(element) {
     let workAreaElements = workArea.querySelectorAll('*');
     workAreaElements.forEach(element => {
         //if element is image, ask for source url:
         if (element.id === 'img') {
             element.addEventListener('click', function (event) {
-                console.log('image selected');
+                console.log('image clicked');
             })
         } else {
             //all other elements that are textual, show text box:
@@ -72,12 +75,12 @@ function createTextInputUnderEl(element) {
         let deleteEl = document.createElement('button');
         editTextInput.type = 'text';
         editTextInput.value = element.textContent;
-        editTextInput.id = `textInput_${randNum}`;
+        editTextInput.id = `textInput_${generateRandomID()}`;
         editTextSpan.appendChild(editTextInput);
         editTextSpan.classList.add('editText', 'hidden');
         submitChange.textContent = 'Save';
         submitChange.classList.add('submitChange', 'button');
-        submitChange.id = `saveChange_${randNum}`;
+        submitChange.id = `saveChange_${generateRandomID()}`;
         deleteEl.textContent = 'Remove';
         deleteEl.classList.add('deleteEl', 'button');
         editTextSpan.appendChild(submitChange);
@@ -102,7 +105,8 @@ function createTextInputUnderEl(element) {
 function createWorkAreaElement(elemID) {
     let el = document.createElement(elemID);
     if (elemID === 'img') {
-        el.src = 'https://picsum.photos/200/300';
+        el.src = 'https://picsum.photos/400/400';
+        el.alt = 'sample image';
     } else if (elemID === 'p') {
         el.textContent = 'Phasellus scelerisque metus mattis lorem egestas egestas. Vestibulum pretium erat et ex tempus, nec aliquam nisi bibendum. Curabitur blandit feugiat scelerisque. ';
     } else if (elemID === 'hr') {
@@ -128,12 +132,10 @@ workArea.addEventListener('drop', function (event) {
     if (elemID === 'h1' || elemID === 'h2' || elemID === 'h3' || elemID === 'h4' || elemID === 'h5' || elemID === 'h6' || elemID === 'div' || elemID === 'span' || elemID === 'form' || elemID === 'p' || elemID === 'strong' || elemID === 'ul' || elemID === 'li' || elemID === 'a') {
         createWorkAreaElement(elemID);
     } else if (elemID === 'img') {
-        console.log('img selected')
         createWorkAreaElement(elemID);
     } else if (elemID === 'hr') {
         createWorkAreaElement(elemID);
     } else if (elemID === 'a') {
-        console.log('link selected');
         createWorkAreaElement(elemID);
     }
 })
@@ -163,6 +165,10 @@ openSettingsBtn.addEventListener('click', function () {
     } else {
         pageSettingsEl.classList.toggle('hidden');
     }
+    const customCssTextAreaEl = document.getElementById('customCSS');
+    let customCssLabel = customCssTextAreaEl.previousElementSibling;
+    let customCSSElHeight = customCssTextAreaEl.offsetHeight;
+    customCssLabel.style.height = customCSSElHeight + 'px';
 });
 //opep/close help:
 const helpEl = document.getElementById('help');
@@ -176,15 +182,16 @@ openHelpBtn.addEventListener('click', function () {
     }
 });
 
-
+//save page settings:
 const savePageSettingsBtn = document.getElementById('savePageSettings');
 let pageSettingsPageTitle;
 let pageSettingsFontFamily
+let pageSettingsCustomCSS;
 savePageSettingsBtn.addEventListener('click', function () {
     pageSettingsPageTitle = document.getElementById('pageTitle').value;
     pageSettingsFontFamily = document.getElementById('fontFamily').value;
+    pageSettingsCustomCSS = document.getElementById('customCSS').value;
     pageSettingsEl.classList.add('hidden');
-    console.log('settings saved?', pageSettingsPageTitle, pageSettingsFontFamily);
 });
 //save file:
 function saveFile(filename, type) {
@@ -202,14 +209,13 @@ function saveFile(filename, type) {
             editSpans.forEach(span => {
                 content = content.replace(span.outerHTML, "");//remove all edit spans and their children:
             });
-
             let htmlStart = `
                 <!DOCTYPE html>
                     <html>
                         <head>
                             <meta charset="UTF-8">
                             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                            <style>body {font-family: ${pageSettingsFontFamily};}</style>
+                            <style>body {font-family: ${pageSettingsFontFamily};\n${pageSettingsCustomCSS}}</style>
                             <title>${pageSettingsPageTitle}</title>
                         </head>
                         <body>
@@ -229,4 +235,4 @@ function saveFile(filename, type) {
         }, 100);
     }, { once: true });
 }
-saveFile(`file_${randNum}.html`, "text/html");
+saveFile(`file_${generateRandomID()}.html`, "text/html");

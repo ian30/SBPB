@@ -229,7 +229,9 @@ p {
   color: var(--soft-white);
   border-radius: 5px 0 0 5px;
 }
-.form-group > input {
+.form-group > input,
+.form-group > textarea,
+.form-group > select {
   width: 100%;
   border-radius: 0 5px 5px 0;
   border: none;
@@ -237,7 +239,10 @@ p {
   font-size: 14px;
   background-color: var(--soft-white);
 }
-
+textarea#customCSS {
+  resize: none;
+  font-family: monospace;
+}
 #savePageSettings {
   background-color: var(--primary);
   color: var(--soft-white);
