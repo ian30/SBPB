@@ -145,6 +145,7 @@ newFileTrig.addEventListener('click', function (event) {
     //check if workArea has any elements: 
     let workAreaElements = workArea.querySelectorAll('*');
     fileMenuSibClassList.toggle('show');//closing navigation dropdown
+    fileMenu.classList.remove('active');
     if (workAreaElements.length > 0) {
         let confirm = window.confirm(`work area contains at least 1 element. Are you sure you want to create new file?`)
         if (confirm === false) {
@@ -200,45 +201,50 @@ savePageSettingsBtn.addEventListener('click', function () {
     pageSettingsEl.classList.add('hidden');
 });
 //save file:
+function gatherContent() {
+    const workArea = document.getElementById('workArea');
+    const workAreaEls = workArea.querySelectorAll('*');
+    workAreaEls.forEach(el => {
+        el.classList.remove('editing');//remove editing class before export
+    });
+    let content = workArea.innerHTML;
+    let editSpans = workArea.querySelectorAll('.editText');//select all the edit spans we don't want to export.
+    editSpans.forEach(span => {
+        content = content.replace(span.outerHTML, "");//remove all edit spans and their children:
+    });
+    let htmlStart = `
+        <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>body {font-family: ${PSfontFamily};\n${PScustomCSS}}</style>
+                    <title>${PSpageTitle}</title>
+                </head>
+                <body><${PSwrapperTag} id="${PSwrapperId}" class="${PSwrapperClass}">
+        `;
+    let htmlEnd = `</${PSwrapperTag}></body></html>`;
+    return htmlStart + content + htmlEnd;
+}
+let previousBlobUrl = null;
 function saveFile(filename, type) {
     let downloadLink = document.getElementById('fileMenu_save');
-    // Clean up by revoking the Blob URL after the download is initiated
-    downloadLink.addEventListener('click', function () {
-        function gatherContent() {
-            const workArea = document.getElementById('workArea');
-            const workAreaEls = workArea.querySelectorAll('*');
-            workAreaEls.forEach(el => {
-                el.classList.remove('editing');//remove editing class before export
-            })
-            let content = workArea.innerHTML;
-            let editSpans = workArea.querySelectorAll('.editText');//select all the edit spans we don't want to export.
-            editSpans.forEach(span => {
-                content = content.replace(span.outerHTML, "");//remove all edit spans and their children:
-            });
-            let htmlStart = `
-                <!DOCTYPE html>
-                    <html>
-                        <head>
-                            <meta charset="UTF-8">
-                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                            <style>body {font-family: ${PSfontFamily};\n${PScustomCSS}}</style>
-                            <title>${PSpageTitle}</title>
-                        </head>
-                        <body><${PSwrapperTag} id="${PSwrapperId}" class="${PSwrapperClass}">
-                `;
-            let htmlEnd = `</${PSwrapperTag}></body></html>`;
-            return htmlStart + content + htmlEnd;
-        }
+    downloadLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        fileMenu.classList.remove('active');
         fileMenuSibClassList.toggle('show');//closing navigation dropdown
+        if (previousBlobUrl) window.URL.revokeObjectURL(previousBlobUrl);// Revoke the previous Blob URL
         let data = gatherContent();// Get the latest content from 'workArea'
+
         let file = new Blob([data], { type: type });// Create a Blob from the data
-        // Set the href to the blob URL and the download attribute
-        downloadLink.href = URL.createObjectURL(file);
+        previousBlobUrl = URL.createObjectURL(file);
+        downloadLink.href = previousBlobUrl;
         downloadLink.download = filename;
+        downloadLink.click();
         // Wait for the download to start, then revoke the URL
         setTimeout(function () {
-            window.URL.revokeObjectURL(downloadLink.href);
-        }, 100);
+            window.URL.revokeObjectURL(previousBlobUrl);
+        }, 1000000);
     }, { once: true });
 }
 saveFile(`file_${generateRandomID()}.html`, "text/html");
